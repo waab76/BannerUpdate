@@ -1,6 +1,13 @@
-# Eclipse project files
+# Logging
+*.log
+
+# PRAW config
+praw.ini
+
+# Eclipse files
 .project
 .pydevproject
+.settings/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
