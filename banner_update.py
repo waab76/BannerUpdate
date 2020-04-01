@@ -16,7 +16,7 @@ import praw
 
 from datetime import datetime
 from utils.imgur_helper import download_as
-from utils.reddit_helper import css_sheet, reddit, subreddit
+from utils.reddit_helper import reddit, subreddit
 from PIL import Image
 
 banner_image_name = "banner.jpg"
@@ -87,7 +87,6 @@ def exec_update():
     
     for srcFile in srcFileList:
         if skippedLatest < 2:
-            print('Skipping ', srcFile)
             skippedLatest += 1
             continue
         
@@ -121,7 +120,7 @@ def exec_update():
     stylesheet.upload("banner", os.path.join(workingDir, banner_image_name))
 
     # Trigger the update
-    stylesheet.update(css_sheet, "Auto-updating sidebar/banner")
+    stylesheet.update(subreddit.stylesheet().stylesheet, "Auto-updating sidebar/banner")
 
     # Update the sidebar widget (New Reddit)
     widgets = subreddit.widgets
