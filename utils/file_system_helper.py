@@ -18,6 +18,8 @@ def create_dir_if_necessary(directory):
         os.makedirs(directory)
         
 def remove_file(directory, filename):
+    if not os.path.isdir(directory):
+        return
     filepath = os.path.join(directory, filename)
     if os.path.isfile(filepath):
         os.remove(filepath)
