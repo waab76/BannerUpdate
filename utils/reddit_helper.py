@@ -16,4 +16,4 @@ user_agent='script:BannerBot:0.1 (by u/BourbonInExile)'
 reddit = praw.Reddit(bot_name, user_agent=user_agent)
 
 # Get a handle on our preferred subreddit
-subreddit = reddit.subreddit("TrueWetShaving")
+subreddit = reddit.subreddit("WetShaving")
