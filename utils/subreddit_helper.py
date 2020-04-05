@@ -8,7 +8,7 @@ import logging
 import os
 import praw
 
-from time import strptime
+from time import strftime, strptime
 
 from .file_system_helper import get_files_in_desc_order
 from .imgur_helper import download_as
@@ -24,7 +24,7 @@ def download_contest_winners(target_dir):
     for winner in winners:
         titleDate = winner.title[40:]
         winnerDate = strptime(titleDate, "%B %d, %Y")
-        winnerFilename = winnerDate.strftime("%Y-%m-%d") + '.jpg'
+        winnerFilename = strftime("%Y-%m-%d", winnerDate) + '.jpg'
         if not winnerFilename in files:
             logging.info('Downloading [%s]', winnerFilename)
             firstIndex = winner.selftext.find('1st')
