@@ -4,10 +4,11 @@ Created on Apr 1, 2020
 @author: rcurtis
 '''
 
-import datetime
 import logging
 import os
 import praw
+
+from time import strptime
 
 from .file_system_helper import get_files_in_desc_order
 from .imgur_helper import download_as
@@ -22,7 +23,7 @@ def download_contest_winners(target_dir):
     
     for winner in winners:
         titleDate = winner.title[40:]
-        winnerDate = datetime.strptime(titleDate, "%B %d, %Y")
+        winnerDate = strptime(titleDate, "%B %d, %Y")
         winnerFilename = winnerDate.strftime("%Y-%m-%d") + '.jpg'
         if not winnerFilename in files:
             logging.info('Downloading [%s]', winnerFilename)
