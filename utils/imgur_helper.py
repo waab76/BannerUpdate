@@ -25,5 +25,5 @@ def downloadSingleImage(imageUrl, localFileName):
 def downloadFirstAlbumImage(albumUrl, localFileName):
     albumSource = requests.get(albumUrl).text
     soup = BeautifulSoup(albumSource)
-    matches = soup.findAll('link', rel='image_src')
-    downloadSingleImage(matches[0]['href'], localFileName)
+    matches = soup.findAll('meta', name='twitter:image')
+    downloadSingleImage(matches[0]['content'], localFileName)
