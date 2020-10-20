@@ -5,8 +5,8 @@ Created on Mar 29, 2020
 '''
 
 import logging
+import re
 import requests
-from bs4 import BeautifulSoup
 
 def download_as(imgurUrl, localFileName):
     if imgurUrl.find('.jpg') > 0:
@@ -24,6 +24,6 @@ def downloadSingleImage(imageUrl, localFileName):
 
 def downloadFirstAlbumImage(albumUrl, localFileName):
     albumSource = requests.get(albumUrl).text
-    soup = BeautifulSoup(albumSource)
-    matches = soup.findAll('meta', name='twitter:image')
-    downloadSingleImage(matches[0]['content'], localFileName)
+    match = re.search('https\:\/\/i\.imgur\.com\/.......h\.jpg', albumSource)
+    
+    downloadSingleImage(match.group(0), localFileName)
