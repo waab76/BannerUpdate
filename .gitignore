@@ -3,6 +3,9 @@
 
 # PRAW config
 praw.ini
+config.py
+
+winners/
 
 # Eclipse files
 .project
