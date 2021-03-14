@@ -43,6 +43,7 @@ def exec_update():
     
     logging.info('Update the subreddit')
     update_subreddit(working_dir, sidebar_image_name, banner_image_name)
+    logging.info('Done')
 
     
 if __name__ == '__main__':
