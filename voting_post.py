@@ -47,8 +47,11 @@ def do_voting_post():
     imgur_links = get_entries(submission_post)
     
     logging.info('Cleaning up Submission post')
-    submission_post.mod.lock()
-    submission_post.mod.undistinguish()
+    try:
+        submission_post.mod.lock()
+        submission_post.mod.undistinguish()
+    except:
+        pass
 
     logging.info('Building Voting post')
     formatted_date = datetime.today().strftime('%B %d, %Y')

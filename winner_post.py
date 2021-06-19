@@ -44,16 +44,22 @@ def check_for_tie(winners):
     return winners
 
 def delete_old_files():
-    os.remove('submission_thread.txt')
-    os.remove('voting_thread.txt')
+    try:
+        os.remove('submission_thread.txt')
+        os.remove('voting_thread.txt')
+    except:
+        pass
 
 def do_banner_winner():
     logging.info('Connected to Reddit instance as [%s]', reddit.user.me())
     logging.info('Getting the Saturday voting post')    
     voting_post = reddit.submission(id=get_voting_id())
     
-    voting_post.mod.undistinguish()
-    voting_post.mod.sticky(state=False)
+    try:
+        voting_post.mod.undistinguish()
+        voting_post.mod.sticky(state=False)
+    except:
+        pass
     
     # ordered as 1st, 2nd, 3rd
     winners = get_winners(voting_post)
