@@ -22,6 +22,8 @@ def download_contest_winners(target_dir):
     winners = subreddit.search(query="weekly contest results", sort="new", time_filter="month")
     
     for winner in winners:
+        if not 'Banner' in winner.link_flair_text:
+            continue
         titleDate = winner.title[40:]
         winnerDate = strptime(titleDate, "%B %d, %Y")
         winnerFilename = strftime("%Y-%m-%d", winnerDate) + '.jpg'

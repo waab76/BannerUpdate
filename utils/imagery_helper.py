@@ -43,6 +43,7 @@ def generate_banner_image(source_dir, banner_image_name, banner_dimensions):
         
             start_pixel += reduced_image.size[0]
         else:
-            logging.info('Probably need to delete [%s]', source_file)
+            logging.info('Deleting [%s]', source_file)
+            os.remove(source_file)
         
     banner_image.save(os.path.join(source_dir, banner_image_name))
