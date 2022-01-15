@@ -9,9 +9,10 @@ import os
 from datetime import datetime
 from utils.reddit_helper import reddit, subreddit
 
-logging.basicConfig(filename='BannerBot.log', level=logging.INFO, 
-                    format='%(asctime)s :: %(levelname)s :: winner :: %(module)s:%(funcName)s :: %(message)s ', 
-                    datefmt='%m/%d/%Y %I:%M:%S %p')
+logging.basicConfig(filename='/var/log/BannerBot.log', level=logging.INFO, 
+                    format='%(asctime)s %(levelname)s winner %(module)s:%(funcName)s %(message)s')
+logging.Formatter.formatTime = (lambda self, record, datefmt=None: datetime.datetime.fromtimestamp(record.created, datetime.timezone.utc).astimezone().isoformat(sep="T",timespec="milliseconds"))
+
 
 def get_voting_id():
     # get the voting thread id
@@ -51,7 +52,7 @@ def delete_old_files():
         pass
 
 def do_banner_winner():
-    logging.info('Connected to Reddit instance as [%s]', reddit.user.me())
+    logging.info('Connected to Reddit instance as %s', reddit.user.me())
     logging.info('Getting the Saturday voting post')    
     voting_post = reddit.submission(id=get_voting_id())
     

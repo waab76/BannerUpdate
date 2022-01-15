@@ -8,9 +8,9 @@ Created on Mar 29, 2020
 '''
 import logging
 
-logging.basicConfig(filename='BannerBot.log', level=logging.INFO, 
-                    format='%(asctime)s :: %(levelname)s :: %(threadName)s :: %(module)s:%(funcName)s :: %(message)s ', 
-                    datefmt='%m/%d/%Y %I:%M:%S %p')
+logging.basicConfig(filename='/var/log/BannerBot.log', level=logging.INFO, 
+                    format='%(asctime)s %(levelname)s update %(module)s:%(funcName)s %(message)s')
+logging.Formatter.formatTime = (lambda self, record, datefmt=None: datetime.datetime.fromtimestamp(record.created, datetime.timezone.utc).astimezone().isoformat(sep="T",timespec="milliseconds"))
 
 from utils.file_system_helper import remove_file, get_files_in_desc_order
 from utils.imagery_helper import generate_thumbnail_file, generate_banner_image
@@ -22,7 +22,7 @@ sidebar_image_name = "sidebar-img.jpg"
 working_dir = './winners'
 
 def exec_update():
-    logging.info('Connected to Reddit instance as [%s]', reddit.user.me())
+    logging.info('Connected to Reddit instance as %s', reddit.user.me())
     
     logging.info('Clean up old banner and sidebar files if they exist')
     remove_file(working_dir, banner_image_name)

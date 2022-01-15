@@ -5,9 +5,10 @@ Created on Feb 27, 2021
 '''
 import logging
 
-logging.basicConfig(filename='BannerBot.log', level=logging.INFO, 
-                    format='%(asctime)s :: %(levelname)s :: submission :: %(module)s:%(funcName)s :: %(message)s ', 
-                    datefmt='%m/%d/%Y %I:%M:%S %p')
+logging.basicConfig(filename='/var/log/BannerBot.log', level=logging.INFO, 
+                    format='%(asctime)s %(levelname)s submission %(module)s:%(funcName)s %(message)s')
+logging.Formatter.formatTime = (lambda self, record, datefmt=None: datetime.datetime.fromtimestamp(record.created, datetime.timezone.utc).astimezone().isoformat(sep="T",timespec="milliseconds"))
+
 
 from datetime import datetime
 from utils.reddit_helper import reddit, subreddit
@@ -44,7 +45,7 @@ May the best submission win! Good luck to all!
 '''
 
 def do_submission_post():
-    logging.info('Connected to Reddit instance as [%s]', reddit.user.me())
+    logging.info('Connected to Reddit instance as %s', reddit.user.me())
     logging.info('Submitting the Friday call for submissions')    
     formatted_date = datetime.today().strftime('%B %d, %Y')
     submission = subreddit.submit(

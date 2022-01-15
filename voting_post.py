@@ -10,9 +10,10 @@ import re
 from datetime import datetime
 from utils.reddit_helper import reddit, subreddit
 
-logging.basicConfig(filename='BannerBot.log', level=logging.INFO, 
-                    format='%(asctime)s :: %(levelname)s :: voting :: %(module)s:%(funcName)s :: %(message)s ', 
-                    datefmt='%m/%d/%Y %I:%M:%S %p')
+logging.basicConfig(filename='/var/log/BannerBot.log', level=logging.INFO, 
+                    format='%(asctime)s %(levelname)s voting %(module)s:%(funcName)s %(message)s')
+logging.Formatter.formatTime = (lambda self, record, datefmt=None: datetime.datetime.fromtimestamp(record.created, datetime.timezone.utc).astimezone().isoformat(sep="T",timespec="milliseconds"))
+
 
 def get_submission_id():
     # get the submission thread id
@@ -41,7 +42,7 @@ def get_entries(submission_post):
     return entries
 
 def do_voting_post():
-    logging.info('Connected to Reddit instance as [%s]', reddit.user.me())
+    logging.info('Connected to Reddit instance as %s', reddit.user.me())
     submission_post = reddit.submission(id=get_submission_id())
     
     imgur_links = get_entries(submission_post)
