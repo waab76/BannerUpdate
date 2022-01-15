@@ -4,15 +4,21 @@ Created on Feb 27, 2021
 @author: rcurtis
 '''
 
+import datetime
 import logging
-import os
-from datetime import datetime
-from utils.reddit_helper import reddit, subreddit
+from logging.handlers import TimedRotatingFileHandler
 
-logging.basicConfig(filename='/var/log/BannerBot.log', level=logging.INFO, 
+handlers = set()
+handlers.add(TimedRotatingFileHandler('/var/log/BannerBot.log',
+                                      when='W0',
+                                      backupCount=4))
+
+logging.basicConfig(level=logging.INFO, handlers=handlers,
                     format='%(asctime)s %(levelname)s winner %(module)s:%(funcName)s %(message)s')
 logging.Formatter.formatTime = (lambda self, record, datefmt=None: datetime.datetime.fromtimestamp(record.created, datetime.timezone.utc).astimezone().isoformat(sep="T",timespec="milliseconds"))
 
+import os
+from utils.reddit_helper import reddit, subreddit
 
 def get_voting_id():
     # get the voting thread id
@@ -66,7 +72,7 @@ def do_banner_winner():
     winners = get_winners(voting_post)
     
     content = ''
-    date = datetime.today().strftime('%B %d, %Y')
+    date = datetime.datetime.today().strftime('%B %d, %Y')
     title = 'Weekly Sidebar Contest Results Thread - {}'.format(date)
     
     if len(winners) < 3:

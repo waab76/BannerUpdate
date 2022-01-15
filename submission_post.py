@@ -3,14 +3,19 @@ Created on Feb 27, 2021
 
 @author: rcurtis
 '''
+import datetime
 import logging
+from logging.handlers import TimedRotatingFileHandler
 
-logging.basicConfig(filename='/var/log/BannerBot.log', level=logging.INFO, 
+handlers = set()
+handlers.add(TimedRotatingFileHandler('/var/log/BannerBot.log',
+                                      when='W0',
+                                      backupCount=4))
+
+logging.basicConfig(level=logging.INFO, handlers=handlers,
                     format='%(asctime)s %(levelname)s submission %(module)s:%(funcName)s %(message)s')
 logging.Formatter.formatTime = (lambda self, record, datefmt=None: datetime.datetime.fromtimestamp(record.created, datetime.timezone.utc).astimezone().isoformat(sep="T",timespec="milliseconds"))
 
-
-from datetime import datetime
 from utils.reddit_helper import reddit, subreddit
 
 post_body = '''
@@ -47,7 +52,7 @@ May the best submission win! Good luck to all!
 def do_submission_post():
     logging.info('Connected to Reddit instance as %s', reddit.user.me())
     logging.info('Submitting the Friday call for submissions')    
-    formatted_date = datetime.today().strftime('%B %d, %Y')
+    formatted_date = datetime.datetime.today().strftime('%B %d, %Y')
     submission = subreddit.submit(
         title='Weekly Sidebar Contest Submission Thread - %s' % formatted_date,
         selftext=post_body,

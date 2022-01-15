@@ -6,9 +6,16 @@ Created on Mar 29, 2020
 
 @author: rcurtis
 '''
+import datetime
 import logging
+from logging.handlers import TimedRotatingFileHandler
 
-logging.basicConfig(filename='/var/log/BannerBot.log', level=logging.INFO, 
+handlers = set()
+handlers.add(TimedRotatingFileHandler('/var/log/BannerBot.log',
+                                      when='W0',
+                                      backupCount=4))
+
+logging.basicConfig(level=logging.INFO, handlers=handlers,
                     format='%(asctime)s %(levelname)s update %(module)s:%(funcName)s %(message)s')
 logging.Formatter.formatTime = (lambda self, record, datefmt=None: datetime.datetime.fromtimestamp(record.created, datetime.timezone.utc).astimezone().isoformat(sep="T",timespec="milliseconds"))
 

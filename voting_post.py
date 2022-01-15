@@ -5,15 +5,21 @@ Created on Feb 27, 2021
 @author: rcurtis
 '''
 
+import datetime
 import logging
-import re
-from datetime import datetime
-from utils.reddit_helper import reddit, subreddit
+from logging.handlers import TimedRotatingFileHandler
 
-logging.basicConfig(filename='/var/log/BannerBot.log', level=logging.INFO, 
+handlers = set()
+handlers.add(TimedRotatingFileHandler('/var/log/BannerBot.log',
+                                      when='W0',
+                                      backupCount=4))
+
+logging.basicConfig(level=logging.INFO, handlers=handlers,
                     format='%(asctime)s %(levelname)s voting %(module)s:%(funcName)s %(message)s')
 logging.Formatter.formatTime = (lambda self, record, datefmt=None: datetime.datetime.fromtimestamp(record.created, datetime.timezone.utc).astimezone().isoformat(sep="T",timespec="milliseconds"))
 
+import re
+from utils.reddit_helper import reddit, subreddit
 
 def get_submission_id():
     # get the submission thread id
@@ -55,7 +61,7 @@ def do_voting_post():
         pass
 
     logging.info('Building Voting post')
-    formatted_date = datetime.today().strftime('%B %d, %Y')
+    formatted_date = datetime.datetime.today().strftime('%B %d, %Y')
     post_body = 'Voting will remain open for 24 hours. In the event of a tie for 1st place, a winner will be chosen at random. May the best voting_post win! Good luck to all!'
     
     logging.info('Submitting the Voting post')
