@@ -24,7 +24,7 @@ def download_contest_winners(target_dir):
     for winner in winners:
         if not 'Banner' in winner.link_flair_text:
             continue
-        titleDate = winner.title[40:]
+        titleDate = winner.title[39:].strip()
         winnerDate = strptime(titleDate, "%B %d, %Y")
         winnerFilename = strftime("%Y-%m-%d", winnerDate) + '.jpg'
         if not winnerFilename in files:
