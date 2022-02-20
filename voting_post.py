@@ -10,7 +10,7 @@ import logging
 from logging.handlers import TimedRotatingFileHandler
 
 handlers = set()
-handlers.add(TimedRotatingFileHandler('/var/log/BannerBot.log',
+handlers.add(TimedRotatingFileHandler('/home/pi/BannerBot.log',
                                       when='W0',
                                       backupCount=4))
 
@@ -62,7 +62,7 @@ def do_voting_post():
 
     logging.info('Building Voting post')
     formatted_date = datetime.datetime.today().strftime('%B %d, %Y')
-    post_body = 'Voting will remain open for 24 hours. In the event of a tie for 1st place, a winner will be chosen at random. May the best voting_post win! Good luck to all!'
+    post_body = 'Voting will remain open for 24 hours. In the event of a tie for 1st place, a winner will be chosen at random. May the best submission win! Good luck to all!'
     
     logging.info('Submitting the Voting post')
     voting_post = subreddit.submit(

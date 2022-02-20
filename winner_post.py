@@ -9,7 +9,7 @@ import logging
 from logging.handlers import TimedRotatingFileHandler
 
 handlers = set()
-handlers.add(TimedRotatingFileHandler('/var/log/BannerBot.log',
+handlers.add(TimedRotatingFileHandler('/home/pi/BannerBot.log',
                                       when='W0',
                                       backupCount=4))
 
@@ -23,7 +23,9 @@ from utils.reddit_helper import reddit, subreddit
 def get_voting_id():
     # get the voting thread id
     f = open('voting_thread.txt', 'r')
-    return f.read()
+    id = f.read()
+    logging.info('Getting the Saturday voting post [%s]', id)    
+    return id
 
 def get_winners(voting_post):
     logging.info('Collecting votes from voting post [%s]', voting_post.id)
@@ -59,7 +61,6 @@ def delete_old_files():
 
 def do_banner_winner():
     logging.info('Connected to Reddit instance as %s', reddit.user.me())
-    logging.info('Getting the Saturday voting post')    
     voting_post = reddit.submission(id=get_voting_id())
     
     try:

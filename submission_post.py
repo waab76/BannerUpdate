@@ -8,7 +8,7 @@ import logging
 from logging.handlers import TimedRotatingFileHandler
 
 handlers = set()
-handlers.add(TimedRotatingFileHandler('/var/log/BannerBot.log',
+handlers.add(TimedRotatingFileHandler('/home/pi/BannerBot.log',
                                       when='W0',
                                       backupCount=4))
 

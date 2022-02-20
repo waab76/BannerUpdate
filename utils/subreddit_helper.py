@@ -19,7 +19,7 @@ stylesheet = subreddit.stylesheet
 def download_contest_winners(target_dir):
     files = get_files_in_desc_order(target_dir)
     
-    winners = subreddit.search(query="weekly contest results", sort="new", time_filter="month")
+    winners = subreddit.search(query="Sidebar Contest Results", sort="new", time_filter="month")
     
     for winner in winners:
         if not 'Banner' in winner.link_flair_text:
@@ -35,6 +35,7 @@ def download_contest_winners(target_dir):
             download_as(imgurLink, os.path.join(target_dir, winnerFilename))
         else:
             logging.info('[%s] already exists, not downloading', winnerFilename)
+        break
 
 def update_subreddit(source_dir, sidebar_file, banner_file):
     update_classic_reddit(source_dir, sidebar_file, banner_file)
