@@ -29,9 +29,11 @@ def download_as(imgurUrl, localFileName):
          logging.error('Status code {} attempting to get album'.format(response.status_code))
          response = requests.request("GET", image_url.format(album_id), headers=headers, data=payload, files=files)
          if response.status_code < 300:
-              logging.error('Status code {} attempting to get image'.format(response.status_code))
               image_data = json.loads(response.text)
               download_url = image_data['data']['link'].replace('jpg', 'jpeg')
+        else:
+            logging.error('Status code {} attempting to get image. Quitting'.format(response.status_code))
+            quit()
     else:
         album_data = json.loads(response.text)
         download_url = album_data['data'][0]['link'].replace('jpg', 'jpeg')
